@@ -1,0 +1,13 @@
+FROM node:alpine
+
+WORKDIR /usr/app
+COPY ./package.json ./
+RUN npm install
+# need this because ohterwise node_modules/.cache isn't found.
+RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
+
+COPY ./ ./
+# need the following to update container referenced data ie App.js changes on system to show in running container
+#ENV CHOKIDAR_USEPOLLING=true
+
+CMD ["npm", "run", "start"]
